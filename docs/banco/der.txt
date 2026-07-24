@@ -1,0 +1,31 @@
+Table veiculos {
+  id int [pk, increment]
+  placa varchar(10) [not null, unique]
+  modelo varchar(50) [not null]
+  tipo varchar(20) [note: "LEVE | PESADO"]
+  ano int
+}
+
+Table viagens {
+  id int [pk, increment]
+  veiculo_id int [not null]
+  data_saida timestamp [not null]
+  data_chegada timestamp
+  origem varchar(100)
+  destino varchar(100)
+  km_percorrida decimal(10,2)
+}
+
+Table manutencoes {
+  id int [pk, increment]
+  veiculo_id int [not null]
+  data_inicio date [not null]
+  data_finalizacao date
+  tipo_servico varchar(100)
+  custo_estimado decimal(10,2)
+  status varchar(20) [default: 'PENDENTE', note: "PENDENTE | EM_REALIZACAO | CONCLUIDA"]
+}
+
+Ref: viagens.veiculo_id > veiculos.id [delete: cascade]
+
+Ref: manutencoes.veiculo_id > veiculos.id [delete: cascade]

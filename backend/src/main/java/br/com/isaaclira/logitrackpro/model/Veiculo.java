@@ -2,6 +2,7 @@ package br.com.isaaclira.logitrackpro.model;
 
 import br.com.isaaclira.logitrackpro.model.enums.TipoVeiculo;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -34,20 +35,20 @@ public class Veiculo {
     @Column(length = 20)
     private TipoVeiculo tipo;
 
+    // Adicionei 1900 como limite minimo porque eu acho que dificilmente
+    // uma frota logística teria veiculos mais antigos.
+    // A ideia seria evitar valores invalidos no cadastro.
+    @Min(1900)
+    @Column
     private Integer ano;
 
-    @OneToMany(
-            mappedBy = "veiculo",
-            cascade = CascadeType.REMOVE,
-            orphanRemoval = true
-    )
+    // Apesar de no script original do banco existir um
+    // "ON DELETE CASCADE", eu achei que não seria uma boa ideia
+    // manter dessa forma porque a exclusão de um veículo não deveria
+    // remover automaticamente o histórico de viagens e manutenções.
+    @OneToMany(mappedBy = "veiculo")
     private List<Viagem> viagens = new ArrayList<>();
 
-    @OneToMany(
-            mappedBy = "veiculo",
-            cascade = CascadeType.REMOVE,
-            orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "veiculo")
     private List<Manutencao> manutencoes = new ArrayList<>();
-
 }

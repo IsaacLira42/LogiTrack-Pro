@@ -1,11 +1,11 @@
 package br.com.isaaclira.logitrackpro.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -21,25 +21,36 @@ public class Viagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // No script inicial, veiculo_id não possuaa a restrição NOT NULL.
+    // Decidi tornar esse relacionamento obrigatório porque uma viagem
+    // sem veículo não tem, a meu ver, sentido em uma operação logistica.
     @ManyToOne
-    // No SQL do teste, esse campo não é obrigatorio,
-    // mas decidi deixa-lo obrigatorio porque acho que faz
-    // mais sentido
     @JoinColumn(name = "veiculo_id", nullable = false)
     private Veiculo veiculo;
 
+    @NotNull
     @Column(nullable = false, name = "data_saida")
     private LocalDateTime dataSaida;
 
     @Column(name = "data_chegada")
     private LocalDateTime dataChegada;
 
-    @Column(length = 100)
+    // No script inicial, origem e destino permitiam valores nulos.
+    // Como representam o trajeto realizado pela viagem, decidi tornar
+    // esses campos obrigatorios para evitar registros incompletos.
+    @NotBlank
+    @Column(nullable = false, length = 100)
     private String origem;
 
-    @Column(length = 100)
+    @NotBlank
+    @Column(nullable = false, length = 100)
     private String destino;
 
-    @Column(precision = 10, scale = 2, name = "km_percorrida")
+    // No script inicial, km_percorrida permitia valores nulos.
+    // Como essa informação é utilizada nos cálculos do dashboard,
+    // decidi tornar o campo obrigatorio e garantir que o valor seja positivo.
+    @NotNull
+    @Positive
+    @Column(nullable = false, precision = 10, scale = 2, name = "km_percorrida")
     private BigDecimal kmPercorrida;
 }

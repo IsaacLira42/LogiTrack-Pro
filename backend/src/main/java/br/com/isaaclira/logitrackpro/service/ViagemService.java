@@ -67,6 +67,14 @@ public class ViagemService {
         return viagemMapper.toResponseDTO(viagemAtualizada);
     }
 
+    // DELETE
+    @Transactional
+    public void remover(Long id) {
+        Viagem viagem = buscarViagem(id);
+
+        viagemRepository.delete(viagem);
+    }
+
 
     // Metodos Auxiliares
     private Veiculo buscarVeiculo(Long id) {

@@ -31,7 +31,7 @@ public class ViagemService {
 
     // CREATE
     @Transactional
-    public ViagemResponseDTO cadastrarViagem(ViagemRequestDTO request) {
+    public ViagemResponseDTO cadastrar(ViagemRequestDTO request) {
         validarPeriodo(request.dataSaida(), request.dataChegada());
 
         Veiculo veiculo = buscarVeiculo(request.veiculoId());
@@ -43,6 +43,28 @@ public class ViagemService {
         Viagem viagemSalva = viagemRepository.save(viagem);
 
         return  viagemMapper.toResponseDTO(viagemSalva);
+    }
+
+    // UPDATE
+    @Transactional
+    public ViagemResponseDTO atualizar(Long id, ViagemRequestDTO request) {
+        validarPeriodo(request.dataSaida(), request.dataChegada());
+
+        Viagem viagem = buscarViagem(id);
+
+        Veiculo veiculo = buscarVeiculo(request.veiculoId());
+
+        viagem.setVeiculo(veiculo);
+
+        viagem.setDataSaida(request.dataSaida());
+        viagem.setDataChegada(request.dataChegada());
+        viagem.setOrigem(request.origem());
+        viagem.setDestino(request.destino());
+        viagem.setKmPercorrida(request.kmPercorrida());
+
+        Viagem viagemAtualizada = viagemRepository.save(viagem);
+
+        return viagemMapper.toResponseDTO(viagemAtualizada);
     }
 
 

@@ -26,6 +26,7 @@ public class ViagemService {
 
 
     // CREATE
+    @Transactional
     public ViagemResponseDTO cadastrarViagem(ViagemRequestDTO request) {
         validarPeriodo(request.dataSaida(), request.dataChegada());
 

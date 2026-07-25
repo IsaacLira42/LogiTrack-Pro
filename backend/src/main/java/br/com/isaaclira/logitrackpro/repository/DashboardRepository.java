@@ -1,6 +1,7 @@
 package br.com.isaaclira.logitrackpro.repository;
 
 import br.com.isaaclira.logitrackpro.model.Viagem;
+import br.com.isaaclira.logitrackpro.projection.dashboard.ManutencaoProximaProjection;
 import br.com.isaaclira.logitrackpro.projection.dashboard.VolumeCategoriaProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -41,5 +42,20 @@ public interface DashboardRepository extends JpaRepository<Viagem, Long> {
     List<VolumeCategoriaProjection> buscarVolumePorCategoria();
 
 
-    //
+    // CRONOGRAMA DE MANUTENCAO
+    @Query(value = """
+        select
+            m.id as id,
+            v.placa as placa,
+            v.modelo as modelo,
+            m.tipo_servico as tipoServico,
+            m.data_inicio as dataInicio,
+            m.status as status,
+            m.custo_estimado as custoEstimado
+        from manutencoes m
+        inner join veiculos v on m.veiculo_id = v.id
+        where m.status in ('PENDENTE', 'EM_REALIZACAO')
+        order by m.data_inicio asc
+        limit 5
+    """, nativeQuery = true) List<ManutencaoProximaProjection> buscarProximasManutencoes();
 }

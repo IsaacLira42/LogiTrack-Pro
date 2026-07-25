@@ -1,5 +1,7 @@
 package br.com.isaaclira.logitrackpro.projection.dashboard;
 
+import br.com.isaaclira.logitrackpro.model.enums.StatusManutencao;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -9,6 +11,6 @@ public interface ManutencaoProximaProjection {
     String getModelo();
     String getTipoServico();
     LocalDate getDataInicio();
-    String getStatus();
+    StatusManutencao getStatus();
     BigDecimal getCustoEstimado();
 }

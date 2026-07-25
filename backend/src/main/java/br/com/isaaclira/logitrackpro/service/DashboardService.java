@@ -20,11 +20,10 @@ public class DashboardService {
     private final DashboardRepository dashboardRepository;
 
     // TOTAL KM PERCORRIDO
-    public BigDecimal buscarTotalKm() {
-        return dashboardRepository.buscarTotalKm();
-    }
-
-    public BigDecimal buscarTotalKmPorVeiculo(Long veiculoId) {
+    public BigDecimal buscarTotalKm(Long veiculoId) {
+        if (veiculoId == null) {
+            return dashboardRepository.buscarTotalKm();
+        }
         return dashboardRepository.buscarTotalKmPorVeiculo(veiculoId);
     }
 
@@ -81,9 +80,9 @@ public class DashboardService {
     }
 
     // DASHBOARD AGREGADO
-    public DashboardResponseDTO buscarDashboard() {
+    public DashboardResponseDTO buscarDashboard(Long veiculoId) {
         return new DashboardResponseDTO(
-                buscarTotalKm(),
+                buscarTotalKm(veiculoId),
                 buscarVolumePorCategoria(),
                 buscarProximasManutencoes(),
                 buscarRankingUtilizacao(),

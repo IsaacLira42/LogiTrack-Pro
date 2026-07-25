@@ -16,15 +16,15 @@ import java.util.List;
 public interface DashboardRepository extends JpaRepository<Viagem, Long> {
     // TOTAL KM PERCORRIDO
     @Query(value = """
-        SELECT COALESCE(SUM(v.km_percorrida),0)
-        FROM viagens v
+        select coalesce(sum(v.km_percorrida),0) as totalKm
+        from viagens v
     """, nativeQuery = true)
     BigDecimal buscarTotalKm();
 
     @Query(value = """
-        SELECT COALESCE(SUM(v.km_percorrida),0)
-        FROM viagens v
-        WHERE v.veiculo_id = :veiculoId
+        select coalesce(sum(v.km_percorrida),0) as totalKm
+        from viagens v
+        where v.veiculo_id = :veiculoId
     """, nativeQuery = true)
     BigDecimal buscarTotalKmPorVeiculo(
             @Param("veiculoId") Long veiculoId
@@ -75,4 +75,17 @@ public interface DashboardRepository extends JpaRepository<Viagem, Long> {
         limit 1
     """, nativeQuery = true)
     RankingUtilizacaoProjection buscarRankingUtilizacao();
+
+
+    // PROJECAO FINANCEIRA
+    @Query(value = """
+        select
+            coalesce(sum(m.custo_estimado), 0) as custoEstimado
+        from manutencoes m
+        where
+            extract(year from m.data_inicio) = extract(year from current_date)
+            and extract(month from m.data_inicio) = extract(month from current_date)
+            and m.status in ('PENDENTE', 'EM_REALIZACAO')
+    """, nativeQuery = true)
+    BigDecimal buscarProjecaoFinanceira();
 }

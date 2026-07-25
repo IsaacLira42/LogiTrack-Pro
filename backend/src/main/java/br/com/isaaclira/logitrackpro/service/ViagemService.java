@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Service
@@ -21,6 +22,15 @@ public class ViagemService {
     private final ViagemRepository viagemRepository;
     private final VeiculoRepository veiculoRepository;
     private final ViagemMapper viagemMapper;
+
+    // LIST ALL
+    public List<ViagemResponseDTO> buscarViagens() {
+        List<Viagem> viagens = buscarTodasViagens();
+
+        return viagens.stream()
+                .map(viagemMapper::toResponseDTO)
+                .toList();
+    }
 
     // LIST BY ID
     public ViagemResponseDTO buscarPorId(Long id) {
@@ -95,5 +105,9 @@ public class ViagemService {
         // TODO: Subtituir esse tratamento de erros por um global
         return viagemRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Viagem com id " + id + " não encontrada"));
+    }
+
+    private List<Viagem> buscarTodasViagens() {
+        return viagemRepository.findAll();
     }
 }

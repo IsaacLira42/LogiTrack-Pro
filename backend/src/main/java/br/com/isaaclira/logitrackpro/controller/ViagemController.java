@@ -9,11 +9,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/viagens")
 @RequiredArgsConstructor
 public class ViagemController {
     private final ViagemService viagemService;
+
+    @GetMapping
+    public ResponseEntity<List<ViagemResponseDTO>> buscarViagens() {
+        return ResponseEntity.ok(viagemService.buscarViagens());
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ViagemResponseDTO> buscarPorId(@PathVariable Long id) {

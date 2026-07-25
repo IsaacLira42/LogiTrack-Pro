@@ -2,6 +2,7 @@ package br.com.isaaclira.logitrackpro.repository;
 
 import br.com.isaaclira.logitrackpro.model.Viagem;
 import br.com.isaaclira.logitrackpro.projection.dashboard.ManutencaoProximaProjection;
+import br.com.isaaclira.logitrackpro.projection.dashboard.RankingUtilizacaoProjection;
 import br.com.isaaclira.logitrackpro.projection.dashboard.VolumeCategoriaProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -58,4 +59,20 @@ public interface DashboardRepository extends JpaRepository<Viagem, Long> {
         order by m.data_inicio asc
         limit 5
     """, nativeQuery = true) List<ManutencaoProximaProjection> buscarProximasManutencoes();
+
+
+    // RANKING DE ULTILIZACAO
+    @Query(value = """
+        select
+            ve.id as id,
+            ve.placa as placa,
+            ve.modelo as modelo,
+            coalesce(sum(vi.km_percorrida), 0) as kmTotal
+        from veiculos ve
+        inner join viagens vi on ve.id = vi.veiculo_id
+        group by ve.id, ve.placa, ve.modelo
+        order by kmTotal desc
+        limit 1
+    """, nativeQuery = true)
+    RankingUtilizacaoProjection buscarRankingUtilizacao();
 }

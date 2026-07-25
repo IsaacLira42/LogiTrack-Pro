@@ -10,8 +10,9 @@
   /* Cores */
   --color-primary: #ffffff;
   --color-secondary: #f7f9fb;
-  --color-acent: #0053db;
+  --color-accent: #0053db;
   --color-text: #444748;
+  --color-borda: #e0e3e5;
 }
 
 body {

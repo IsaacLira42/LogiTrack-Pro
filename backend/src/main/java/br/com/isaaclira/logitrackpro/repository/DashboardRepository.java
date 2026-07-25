@@ -1,6 +1,5 @@
 package br.com.isaaclira.logitrackpro.repository;
 
-import br.com.isaaclira.logitrackpro.dto.response.dashboard.VolumeCategoriaDTO;
 import br.com.isaaclira.logitrackpro.model.Viagem;
 import br.com.isaaclira.logitrackpro.projection.dashboard.VolumeCategoriaProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,7 +12,7 @@ import java.util.List;
 
 @Repository
 public interface DashboardRepository extends JpaRepository<Viagem, Long> {
-
+    // TOTAL KM PERCORRIDO
     @Query(value = """
         SELECT COALESCE(SUM(v.km_percorrida),0)
         FROM viagens v
@@ -29,4 +28,18 @@ public interface DashboardRepository extends JpaRepository<Viagem, Long> {
             @Param("veiculoId") Long veiculoId
     );
 
+
+    // VOLUME POR CATEGORIA
+    @Query(value = """
+        select
+            ve.tipo as tipo,
+            count(vi.id) as quantidade
+        from veiculos ve
+        left join viagens vi on ve.id = vi.veiculo_id
+        group by ve.tipo
+    """, nativeQuery = true)
+    List<VolumeCategoriaProjection> buscarVolumePorCategoria();
+
+
+    //
 }

@@ -8,6 +8,7 @@ public record DashboardResponseDTO(
     List<VolumeCategoriaDTO> volumeCategoria,
     List<ManutencaoProximaDTO> proximasManutencoes,
     RankingUtilizacaoDTO ranking,
-    BigDecimal projecaoFinanceira
+    BigDecimal projecaoFinanceira,
+    List<KmPorDiaDTO> kmPorDia
 ) {
 }

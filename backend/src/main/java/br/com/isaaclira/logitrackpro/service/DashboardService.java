@@ -1,13 +1,12 @@
 package br.com.isaaclira.logitrackpro.service;
 
-import br.com.isaaclira.logitrackpro.dto.response.dashboard.DashboardResponseDTO;
-import br.com.isaaclira.logitrackpro.dto.response.dashboard.ManutencaoProximaDTO;
-import br.com.isaaclira.logitrackpro.dto.response.dashboard.RankingUtilizacaoDTO;
-import br.com.isaaclira.logitrackpro.dto.response.dashboard.VolumeCategoriaDTO;
+import br.com.isaaclira.logitrackpro.dto.response.dashboard.*;
+import br.com.isaaclira.logitrackpro.projection.dashboard.KmPorDiaProjection;
 import br.com.isaaclira.logitrackpro.projection.dashboard.ManutencaoProximaProjection;
 import br.com.isaaclira.logitrackpro.projection.dashboard.RankingUtilizacaoProjection;
 import br.com.isaaclira.logitrackpro.projection.dashboard.VolumeCategoriaProjection;
 import br.com.isaaclira.logitrackpro.repository.DashboardRepository;
+import br.com.isaaclira.logitrackpro.repository.ViagemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DashboardService {
     private final DashboardRepository dashboardRepository;
+    private final ViagemRepository viagemRepository;
 
     // TOTAL KM PERCORRIDO
     public BigDecimal buscarTotalKm(Long veiculoId) {
@@ -79,6 +79,18 @@ public class DashboardService {
         return dashboardRepository.buscarProjecaoFinanceira();
     }
 
+    // LISTAR KM POR DIA
+    public List<KmPorDiaDTO> buscarKmPorDia() {
+        List<KmPorDiaProjection> projections = viagemRepository.buscarKmPorDia();
+
+        return projections.stream().map(
+                (projection) -> new KmPorDiaDTO(
+                        projection.getDataSaida(),
+                        projection.getKmTotal()
+                )
+        ).toList();
+    }
+
     // DASHBOARD AGREGADO
     public DashboardResponseDTO buscarDashboard(Long veiculoId) {
         return new DashboardResponseDTO(
@@ -86,7 +98,8 @@ public class DashboardService {
                 buscarVolumePorCategoria(),
                 buscarProximasManutencoes(),
                 buscarRankingUtilizacao(),
-                buscarProjecaoFinanceira()
+                buscarProjecaoFinanceira(),
+                buscarKmPorDia()
         );
     }
 }

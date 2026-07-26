@@ -1,0 +1,54 @@
+Table veiculos {
+  id bigint [pk, increment]
+
+  placa varchar(10) [not null, unique]
+  modelo varchar(50) [not null]
+  tipo varchar(20)
+  ano int
+
+  Note: '''
+  - ano >= 1900 (regra de validação na aplicação)
+  - Não utilizar ON DELETE CASCADE para preservar o histórico de viagens e manutenções.
+  '''
+}
+
+Table viagens {
+  id bigint [pk, increment]
+
+  veiculo_id bigint [not null, ref: > veiculos.id]
+
+  data_saida datetime [not null]
+  data_chegada datetime
+
+  origem varchar(100) [not null]
+  destino varchar(100) [not null]
+
+  km_percorrida decimal(10,2) [not null]
+
+  Note: '''
+  Regras da aplicação:
+  - km_percorrida > 0
+  - Toda viagem deve estar vinculada a um veículo.
+  '''
+}
+
+Table manutencoes {
+  id bigint [pk, increment]
+
+  veiculo_id bigint [not null, ref: > veiculos.id]
+
+  data_inicio date [not null]
+  data_finalizacao date
+
+  tipo_servico varchar(100) [not null]
+
+  custo_estimado decimal(10,2) [not null]
+
+  status varchar(20) [not null, default: 'PENDENTE']
+
+  Note: '''
+  Regras da aplicação:
+  - custo_estimado >= 0
+  - Toda manutenção deve estar vinculada a um veículo.
+  '''
+} 

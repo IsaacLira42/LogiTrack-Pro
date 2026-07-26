@@ -20,7 +20,7 @@ type Props = {
 
 export const GraficoVolumeCategoria = ({ dados }: Props) => {
   return (
-    <div className="h-80 w-full rounded-lg border border-borda bg-primary p-8">
+    <div className="h-92 w-full rounded-lg border border-borda bg-primary p-8">
       <h2 className="mb-4 text-lg font-semibold text-text">
         Volume por Categoria
       </h2>

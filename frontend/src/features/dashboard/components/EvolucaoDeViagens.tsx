@@ -22,7 +22,7 @@ export const EvolucaoDeViagens = ({ kmPorDia }: EvolucaoDeViagensProps) => {
     new Date(data).toLocaleDateString("pt-BR");
 
   return (
-    <div className="h-80 w-full rounded-lg border bg-primary border-borda p-8">
+    <div className="h-92 w-full rounded-lg border bg-primary border-borda p-8">
       <h2 className="mb-4 text-lg text-text font-semibold">
         Evolução de KM por Dia
       </h2>
@@ -34,7 +34,7 @@ export const EvolucaoDeViagens = ({ kmPorDia }: EvolucaoDeViagensProps) => {
             top: 10,
             right: 20,
             left: 0,
-            bottom: 35,
+            bottom: 40,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />

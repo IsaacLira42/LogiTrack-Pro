@@ -19,7 +19,7 @@ export const Card = ({
       </div>
 
       <div className="flex flex-col">
-        <span className="text-4xl font-extrabold font-poppins">{valor}</span>
+        <span className="text-[32px] font-extrabold font-poppins">{valor}</span>
 
         {textoAuxiliar ? (
           <span className="text-[14px] font-poppins">{textoAuxiliar}</span>

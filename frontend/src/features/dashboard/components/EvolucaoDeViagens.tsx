@@ -22,7 +22,7 @@ export const EvolucaoDeViagens = ({ kmPorDia }: EvolucaoDeViagensProps) => {
     new Date(data).toLocaleDateString("pt-BR");
 
   return (
-    <div className="h-80 w-full rounded-lg border bg-primary border-borda p-8 mt-8">
+    <div className="h-80 w-full rounded-lg border bg-primary border-borda p-8">
       <h2 className="mb-4 text-lg text-text font-semibold">
         Evolução de KM por Dia
       </h2>

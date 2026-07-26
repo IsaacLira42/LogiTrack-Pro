@@ -88,4 +88,14 @@ public interface DashboardRepository extends JpaRepository<Viagem, Long> {
             and m.status in ('PENDENTE', 'EM_REALIZACAO')
     """, nativeQuery = true)
     BigDecimal buscarProjecaoFinanceira();
+
+
+    // MANUTENÇOES PENDENTES
+    @Query(value = """
+        select
+            count(m.id) as quantidade
+        from manutencoes m
+        where m.status = 'PENDENTE'
+    """, nativeQuery = true)
+    Integer buscarManutencoesPendentes();
 }

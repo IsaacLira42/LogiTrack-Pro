@@ -14,7 +14,7 @@ export const adaptarDadosParaCards = (
   {
     id: 2,
     titulo: "Manutenções Pendentes",
-    valor: dadosDaApi.proximasManutencoes.length,
+    valor: dadosDaApi.manutencoesPendentes,
     icon: Wrench,
   },
   {

@@ -45,4 +45,6 @@ export interface DashboardApiResponse {
     dataSaida: string;
     kmTotal: number;
   }[];
+
+  manutencoesPendentes: number;
 }

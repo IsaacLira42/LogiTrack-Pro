@@ -9,6 +9,7 @@ public record DashboardResponseDTO(
     List<ManutencaoProximaDTO> proximasManutencoes,
     RankingUtilizacaoDTO ranking,
     BigDecimal projecaoFinanceira,
-    List<KmPorDiaDTO> kmPorDia
+    List<KmPorDiaDTO> kmPorDia,
+    Integer manutencoesPendentes
 ) {
 }

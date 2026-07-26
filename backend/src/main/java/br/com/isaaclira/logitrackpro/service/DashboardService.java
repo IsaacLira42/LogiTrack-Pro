@@ -91,6 +91,11 @@ public class DashboardService {
         ).toList();
     }
 
+    // LISTAR MANUTENCOES PENDENTES
+    public Integer buscarManutencoesPendentes() {
+        return dashboardRepository.buscarManutencoesPendentes();
+    }
+
     // DASHBOARD AGREGADO
     public DashboardResponseDTO buscarDashboard(Long veiculoId) {
         return new DashboardResponseDTO(
@@ -99,7 +104,8 @@ public class DashboardService {
                 buscarProximasManutencoes(),
                 buscarRankingUtilizacao(),
                 buscarProjecaoFinanceira(),
-                buscarKmPorDia()
+                buscarKmPorDia(),
+                buscarManutencoesPendentes()
         );
     }
 }

@@ -13,7 +13,6 @@ export interface ListaDeCardsProps {
   cards: CardProps[];
 }
 
-// types.ts
 export interface Manutencao {
   id: number;
   placa: string;
@@ -30,12 +29,20 @@ export interface DashboardApiResponse {
     tipo: string;
     quantidade: number;
   }[];
+
   proximasManutencoes: Manutencao[];
+
   ranking: {
     id: number;
     placa: string;
     modelo: string;
     kmTotal: number;
   };
+
   projecaoFinanceira: number;
+
+  kmPorDia: {
+    dataSaida: string;
+    kmTotal: number;
+  }[];
 }

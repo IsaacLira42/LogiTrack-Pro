@@ -1,10 +1,10 @@
 import { Layout } from "./components/layout/Layout";
-import DashboardPage from "./features/dashboard/pages/DashboardPage";
+import { Rotas } from "./router";
 
 function App() {
   return (
     <Layout>
-      <DashboardPage />
+      <Rotas />
     </Layout>
   );
 }

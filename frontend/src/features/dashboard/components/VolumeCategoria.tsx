@@ -48,10 +48,7 @@ export const GraficoVolumeCategoria = ({ dados }: Props) => {
             formatter={(value) => {
               const quantidade = typeof value === "number" ? value : 0;
 
-              return [
-                `${quantidade} veículo${quantidade !== 1 ? "s" : ""}`,
-                "Quantidade",
-              ];
+              return [`${quantidade} viage${quantidade !== 1 ? "ns" : "m"}`];
             }}
           />
 

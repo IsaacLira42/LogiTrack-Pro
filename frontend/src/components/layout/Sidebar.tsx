@@ -4,7 +4,7 @@ import { Button } from "../ui/Button";
 
 export const Sidebar = () => {
   return (
-    <aside className="w-16 md:w-70 min-h-screen bg-primary border-r border-borda p-3 md:p-6 transition-all">
+    <div className="h-full bg-primary border-r border-borda p-3 md:p-6 transition-all">
       <Button
         className="w-full"
         texto={
@@ -36,6 +36,6 @@ export const Sidebar = () => {
           <span className="hidden md:inline">Manutenção</span>
         </li>
       </ul>
-    </aside>
+    </div>
   );
 };

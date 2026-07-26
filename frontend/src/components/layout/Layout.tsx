@@ -8,11 +8,13 @@ export const Layout = ({ children }: PropsWithChildren) => {
       <Header />
 
       <div className="flex">
-        <aside className="fixed top-16 left-0 w-[280px] h-[calc(100vh-64px)]">
+        <div className="fixed top-16 left-0 h-[calc(100vh-64px)] w-16 md:w-70">
           <Sidebar />
-        </aside>
+        </div>
 
-        <main className="ml-[280px] flex-1">{children}</main>
+        <main className="flex-1 p-8 ml-16 md:ml-70 transition-all">
+          {children}
+        </main>
       </div>
     </div>
   );

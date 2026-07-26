@@ -12,7 +12,7 @@ export const Layout = ({ children }: PropsWithChildren) => {
           <Sidebar />
         </div>
 
-        <main className="flex-1 p-8 ml-16 md:ml-70 transition-all">
+        <main className="flex-1 pt-24 pb-8 px-8 ml-16 md:ml-70 transition-all">
           {children}
         </main>
       </div>

@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public record ViagemResponseDTO(
         Long id,
-        VeiculoResponseResumoDTO veiculo,
+        VeiculoResponseDTO veiculo,
         LocalDateTime dataSaida,
         LocalDateTime dataChegada,
         String origem,

@@ -2,6 +2,7 @@
 import { ListaDeCards } from "../components/ListaDeCards";
 import { adaptarDadosParaCards } from "../adapters/dashboardAdapter";
 import { useDashboard } from "../hooks/useDashboard";
+import { EvolucaoDeViagens } from "../components/EvolucaoDeViagens";
 
 const DashboardPage = () => {
   const { data, error, isPending } = useDashboard();
@@ -12,7 +13,17 @@ const DashboardPage = () => {
 
   const cardsFormatados = adaptarDadosParaCards(data);
 
-  return <ListaDeCards cards={cardsFormatados} />;
+  const dadosGrafico = data.kmPorDia.map((item) => ({
+    data: item.dataSaida,
+    km: item.kmTotal,
+  }));
+
+  return (
+    <>
+      <ListaDeCards cards={cardsFormatados} />
+      <EvolucaoDeViagens kmPorDia={dadosGrafico} />
+    </>
+  );
 };
 
 export default DashboardPage;

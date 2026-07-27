@@ -1,6 +1,10 @@
 import { Button } from "../../../components/ui/Button";
 
-export const CabecalhoDaPagina = () => {
+export const CabecalhoDaPagina = ({
+  abrirModal,
+}: {
+  abrirModal: () => void;
+}) => {
   return (
     <div className="flex flex-row justify-between items-center">
       <div>
@@ -11,7 +15,11 @@ export const CabecalhoDaPagina = () => {
       </div>
 
       <div>
-        <Button className="w-full" texto={"+ Novo Veículo"} />
+        <Button
+          onClick={abrirModal}
+          className="w-full"
+          texto={"+ Novo Veículo"}
+        />
       </div>
     </div>
   );

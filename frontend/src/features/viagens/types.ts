@@ -1,3 +1,5 @@
+import z from "zod";
+
 // TODO: Remover da feature de viagem
 export interface Veiculo {
   id: number;
@@ -7,7 +9,7 @@ export interface Veiculo {
   ano: number;
 }
 
-export interface Viagem {
+export interface ViagemResponseDTO {
   id: number;
   veiculo: Veiculo;
   dataSaida: string;
@@ -22,3 +24,42 @@ export interface FiltroViagem {
   origem: string;
   destino: string;
 }
+
+export const ViagemRequestSchema = z.object({
+  veiculoId: z
+    .number({
+      message: "O veículo é obrigatório",
+    })
+    .int()
+    .positive("O veículo é obrigatório"),
+
+  dataSaida: z
+    .string({
+      message: "A data de saída é obrigatória",
+    })
+    .min(1, "A data de saída é obrigatória"),
+
+  dataChegada: z.string().optional(),
+
+  origem: z
+    .string({
+      message: "A origem é obrigatória",
+    })
+    .min(1, "A origem é obrigatória")
+    .max(100, "A origem deve ter no máximo 100 caracteres"),
+
+  destino: z
+    .string({
+      message: "O destino é obrigatório",
+    })
+    .min(1, "O destino é obrigatório")
+    .max(100, "O destino deve ter no máximo 100 caracteres"),
+
+  kmPercorrida: z
+    .number({
+      message: "A quilometragem percorrida é obrigatória",
+    })
+    .positive("A quilometragem deve ser maior que zero"),
+});
+
+export type ViagemRequestDTO = z.infer<typeof ViagemRequestSchema>;

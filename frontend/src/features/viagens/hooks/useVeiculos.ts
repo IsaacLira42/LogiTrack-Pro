@@ -1,6 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { buscarVeiculos, buscarViagens } from "../service.viagens.ts";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  buscarVeiculos,
+  buscarViagens,
+  criarViagem,
+} from "../service.viagens.ts";
 import type { FiltroViagem } from "../types.ts";
+import { queryClient } from "../../../lib/queryClient.ts";
 
 export function useVeiculos() {
   return useQuery({
@@ -11,7 +16,18 @@ export function useVeiculos() {
 
 export function useViagens(filtro: FiltroViagem) {
   return useQuery({
-    queryKey: ["Viagens", filtro],
+    queryKey: ["viagens", filtro],
     queryFn: () => buscarViagens(filtro),
+  });
+}
+
+export function useCreateViagem() {
+  return useMutation({
+    mutationFn: criarViagem,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["viagens"],
+      });
+    },
   });
 }

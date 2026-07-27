@@ -1,7 +1,7 @@
-import type { Viagem } from "../types";
+import type { ViagemResponseDTO } from "../types";
 
 interface TabelaViagensProps {
-  viagens: Viagem[];
+  viagens: ViagemResponseDTO[];
 }
 
 export const TabelaViagens = ({ viagens }: TabelaViagensProps) => {

@@ -1,40 +1,60 @@
-import { LayoutDashboard, Car, Map, Wrench } from "lucide-react";
+import {
+  LayoutDashboard,
+  Car,
+  Map,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
+import { NavLink } from "react-router";
 
-import { Button } from "../ui/Button";
+const menuItems: {
+  label: string;
+  path: string;
+  icon: LucideIcon;
+}[] = [
+  {
+    label: "Dashboard",
+    path: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    label: "Veículos",
+    path: "/veiculos",
+    icon: Car,
+  },
+  {
+    label: "Viagens",
+    path: "/viagens",
+    icon: Map,
+  },
+  {
+    label: "Manutenção",
+    path: "/manutencao",
+    icon: Wrench,
+  },
+];
 
 export const Sidebar = () => {
   return (
-    <div className="h-full bg-primary border-r border-borda p-3 md:p-6 transition-all">
-      <Button
-        className="w-full"
-        texto={
-          <>
-            <span className="md:hidden text-[14px] font-bold">+</span>
-            <span className="hidden md:inline">+ Novo Veículo</span>
-          </>
-        }
-      />
-
-      <ul className="mt-6 space-y-4 text-text text-[14px]">
-        <li className="flex items-center gap-3 cursor-pointer justify-center md:justify-start">
-          <LayoutDashboard size={20} />
-          <span className="hidden md:inline">Dashboard</span>
-        </li>
-
-        <li className="flex items-center gap-3 cursor-pointer justify-center md:justify-start">
-          <Car size={20} />
-          <span className="hidden md:inline">Veículos</span>
-        </li>
-
-        <li className="flex items-center gap-3 cursor-pointer justify-center md:justify-start">
-          <Map size={20} />
-          <span className="hidden md:inline">Viagens</span>
-        </li>
-
-        <li className="flex items-center gap-3 cursor-pointer justify-center md:justify-start">
-          <Wrench size={20} />
-          <span className="hidden md:inline">Manutenção</span>
-        </li>
+    <div className="h-full bg-primary border-r border-borda p-3 md:px-6 md:p-8 transition-all">
+      <ul className="space-y-4 text-text text-[14px]">
+        {menuItems.map(({ label, path, icon: Icon }) => (
+          <li key={path}>
+            <NavLink
+              to={path}
+              className={({ isActive }) =>
+                `flex items-center gap-3 rounded-lg px-3 py-2 transition-colors justify-center md:justify-start ${
+                  isActive
+                    ? "bg-accent text-white font-medium"
+                    : "hover:bg-secondary/30"
+                }`
+              }
+            >
+              <Icon size={20} />
+              <span className="hidden md:inline">{label}</span>
+            </NavLink>
+          </li>
+        ))}
       </ul>
     </div>
   );

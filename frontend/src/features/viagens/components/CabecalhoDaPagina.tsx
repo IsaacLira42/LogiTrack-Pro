@@ -1,0 +1,18 @@
+import { Button } from "../../../components/ui/Button";
+
+export const CabecalhoDaPagina = () => {
+  return (
+    <div className="flex flex-row justify-between items-center">
+      <div>
+        <h2 className="text-text text-5xl font-bold mb-2">Viagens</h2>
+        <p className="text-text">
+          Gerencie todas as rotas ativas e o histórico da frota
+        </p>
+      </div>
+
+      <div>
+        <Button className="w-full" texto={"+ Novo Veículo"} />
+      </div>
+    </div>
+  );
+};

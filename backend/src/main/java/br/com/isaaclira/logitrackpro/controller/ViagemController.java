@@ -1,6 +1,7 @@
 package br.com.isaaclira.logitrackpro.controller;
 
 import br.com.isaaclira.logitrackpro.dto.request.ViagemRequestDTO;
+import br.com.isaaclira.logitrackpro.dto.request.ViagemRequestFiltroDTO;
 import br.com.isaaclira.logitrackpro.dto.response.ViagemResponseDTO;
 import br.com.isaaclira.logitrackpro.service.ViagemService;
 import jakarta.validation.Valid;
@@ -18,8 +19,20 @@ public class ViagemController {
     private final ViagemService viagemService;
 
     @GetMapping
-    public ResponseEntity<List<ViagemResponseDTO>> buscarViagens() {
-        return ResponseEntity.ok(viagemService.buscarViagens());
+    public ResponseEntity<List<ViagemResponseDTO>> buscarViagens(
+            @RequestParam(required = false) String placa,
+            @RequestParam(required = false) String origem,
+            @RequestParam(required = false) String destino
+    ) {
+        ViagemRequestFiltroDTO filtro = new ViagemRequestFiltroDTO(
+                placa,
+                origem,
+                destino
+        );
+
+        return ResponseEntity.ok(
+                viagemService.buscarViagensComFiltros(filtro)
+        );
     }
 
     @GetMapping("/{id}")

@@ -1,6 +1,7 @@
 package br.com.isaaclira.logitrackpro.service;
 
 import br.com.isaaclira.logitrackpro.dto.request.ViagemRequestDTO;
+import br.com.isaaclira.logitrackpro.dto.request.ViagemRequestFiltroDTO;
 import br.com.isaaclira.logitrackpro.dto.response.ViagemResponseDTO;
 import br.com.isaaclira.logitrackpro.mapper.ViagemMapper;
 import br.com.isaaclira.logitrackpro.model.Veiculo;
@@ -30,6 +31,29 @@ public class ViagemService {
         return viagens.stream()
                 .map(viagemMapper::toResponseDTO)
                 .toList();
+    }
+
+    // LIST FILTROS
+    public List<ViagemResponseDTO> buscarViagensComFiltros(
+            ViagemRequestFiltroDTO filtro
+    ) {
+
+        List<Viagem> viagens = viagemRepository.buscarViagensComFiltros(
+            limparFiltro(filtro.placa()),
+            limparFiltro(filtro.origem()),
+            limparFiltro(filtro.destino())
+        );
+
+        return viagens.stream()
+                .map(viagemMapper::toResponseDTO)
+                .toList();
+    }
+
+    // TODO: Mandar pro final do arquivo
+    private String limparFiltro(String valor) {
+        return valor == null || valor.isBlank()
+                ? null
+                : valor;
     }
 
     // LIST BY ID

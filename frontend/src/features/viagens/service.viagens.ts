@@ -24,9 +24,22 @@ export async function criarViagem(
   return data;
 }
 
+export async function removerViagem(id: number): Promise<void> {
+  await api.delete(`/viagens/${id}`);
+}
+
 // TODO: Remover daqui
 export async function buscarVeiculos(): Promise<Veiculo[]> {
   const { data } = await api.get("/veiculos");
+
+  return data;
+}
+
+export async function atualizarViagem(
+  id: number,
+  viagem: ViagemRequestDTO,
+): Promise<ViagemResponseDTO> {
+  const { data } = await api.put(`/viagens/${id}`, viagem);
 
   return data;
 }

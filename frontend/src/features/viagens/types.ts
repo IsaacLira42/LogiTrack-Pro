@@ -63,3 +63,10 @@ export const ViagemRequestSchema = z.object({
 });
 
 export type ViagemRequestDTO = z.infer<typeof ViagemRequestSchema>;
+
+export const UpdateViagemSchema = z.object({
+  id: z.number().int().positive(),
+  viagem: ViagemRequestSchema,
+});
+
+export type UpdateViagemDTO = z.infer<typeof UpdateViagemSchema>;

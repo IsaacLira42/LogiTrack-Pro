@@ -22,13 +22,13 @@ public interface ViagemRepository extends JpaRepository<Viagem, Long> {
 
 
     @Query(value = """
-        SELECT vi.*
-        FROM viagens vi
-        JOIN veiculos ve ON ve.id = vi.veiculo_id
-        WHERE 
-            (NULLIF(:placa, '') IS NULL OR ve.placa = :placa)
-        AND (NULLIF(:origem, '') IS NULL OR vi.origem ILIKE CONCAT('%', :origem, '%'))
-        AND (NULLIF(:destino, '') IS NULL OR vi.destino ILIKE CONCAT('%', :destino, '%'))
+        select vi.*
+        from viagens vi
+        join veiculos ve on ve.id = vi.veiculo_id
+        where (nullif(:placa, '') is null or ve.placa = :placa)
+        and (nullif(:origem, '') is null or vi.origem ilike concat('%', :origem, '%'))
+        and (nullif(:destino, '') is null or vi.destino ilike concat('%', :destino, '%'))
+        order by vi.data_saida desc
     """, nativeQuery = true)
     List<Viagem> buscarViagensComFiltros(
             @Param("placa") String placa,

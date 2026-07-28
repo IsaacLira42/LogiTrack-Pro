@@ -18,7 +18,7 @@ export const CabecalhoDaPagina = ({
         <Button
           onClick={abrirModal}
           className="w-full"
-          texto={"+ Novo Veículo"}
+          texto={"+ Nova Viagem"}
         />
       </div>
     </div>

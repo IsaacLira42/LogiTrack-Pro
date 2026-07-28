@@ -1,22 +1,59 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { ViagemRequestSchema, type ViagemRequestDTO } from "../types";
-import { useCreateViagem, useVeiculos } from "../hooks/useVeiculos";
+import {
+  ViagemRequestSchema,
+  type ViagemRequestDTO,
+  type ViagemResponseDTO,
+} from "../types";
+import { useVeiculos } from "../hooks/useVeiculos";
 
-export const FormularioCriarViagem = () => {
-  const { mutate, isPending } = useCreateViagem();
+interface FormularioViagemProps {
+  onSubmit: (data: ViagemRequestDTO) => void;
+  isPending?: boolean;
+  viagem?: ViagemResponseDTO | null;
+}
+
+export const FormularioViagem = ({
+  onSubmit,
+  isPending = false,
+  viagem,
+}: FormularioViagemProps) => {
   const { data: veiculos = [], isLoading } = useVeiculos();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ViagemRequestDTO>({
     resolver: zodResolver(ViagemRequestSchema),
   });
 
-  const onSubmit = (data: ViagemRequestDTO) => {
-    mutate(data);
+  useEffect(() => {
+    if (viagem) {
+      reset({
+        veiculoId: viagem.veiculo.id,
+        dataSaida: viagem.dataSaida.slice(0, 16),
+        dataChegada: viagem.dataChegada ? viagem.dataChegada.slice(0, 16) : "",
+        origem: viagem.origem,
+        destino: viagem.destino,
+        kmPercorrida: viagem.kmPercorrida,
+      });
+    } else {
+      reset({
+        veiculoId: undefined,
+        dataSaida: "",
+        dataChegada: "",
+        origem: "",
+        destino: "",
+        kmPercorrida: undefined,
+      });
+    }
+  }, [viagem, reset]);
+
+  const submit = (data: ViagemRequestDTO) => {
+    onSubmit(data);
   };
 
   const inputClass =
@@ -26,49 +63,44 @@ export const FormularioCriarViagem = () => {
 
   const errorClass = "mt-1 text-sm text-red-500";
 
+  const editando = !!viagem;
+
   return (
     <div>
       <div className="mb-6 border-b border-borda pb-4">
         <h2 className="font-poppins text-2xl font-semibold text-text">
-          Nova viagem
+          {editando ? "Editar viagem" : "Nova viagem"}
         </h2>
 
         <p className="mt-1 text-sm text-gray-500">
-          Preencha os dados abaixo para cadastrar uma nova viagem.
+          {editando
+            ? "Atualize os dados da viagem."
+            : "Preencha os dados abaixo para cadastrar uma nova viagem."}
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={handleSubmit(submit)} className="space-y-5">
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <div>
-              <label className={labelClass}>Veículo</label>
+            <label className={labelClass}>Veículo</label>
 
-              <select
-                className={inputClass}
-                disabled={isLoading}
-                defaultValue=""
-                {...register("veiculoId", {
-                  valueAsNumber: true,
-                })}
-              >
-                <option value="" disabled>
-                  {isLoading
-                    ? "Carregando veículos..."
-                    : "Selecione um veículo"}
+            <select
+              className={inputClass}
+              disabled={isLoading}
+              {...register("veiculoId", {
+                valueAsNumber: true,
+              })}
+            >
+              <option value="" disabled>
+                {isLoading ? "Carregando veículos..." : "Selecione um veículo"}
+              </option>
+
+              {veiculos.map((veiculo) => (
+                <option key={veiculo.id} value={veiculo.id}>
+                  {veiculo.placa} • {veiculo.modelo} ({veiculo.ano})
                 </option>
-
-                {veiculos.map((veiculo) => (
-                  <option key={veiculo.id} value={veiculo.id}>
-                    {veiculo.placa} • {veiculo.modelo} ({veiculo.ano})
-                  </option>
-                ))}
-              </select>
-
-              {errors.veiculoId && (
-                <p className={errorClass}>{errors.veiculoId.message}</p>
-              )}
-            </div>
+              ))}
+            </select>
 
             {errors.veiculoId && (
               <p className={errorClass}>{errors.veiculoId.message}</p>
@@ -162,7 +194,11 @@ export const FormularioCriarViagem = () => {
             disabled={isPending}
             className="rounded-lg bg-accent px-6 py-2.5 font-medium text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {isPending ? "Salvando..." : "Criar viagem"}
+            {isPending
+              ? "Salvando..."
+              : editando
+                ? "Atualizar viagem"
+                : "Criar viagem"}
           </button>
         </div>
       </form>

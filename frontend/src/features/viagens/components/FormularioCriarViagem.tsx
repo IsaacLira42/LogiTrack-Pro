@@ -6,7 +6,7 @@ import {
   type ViagemRequestDTO,
   type ViagemResponseDTO,
 } from "../types";
-import { useVeiculos } from "../hooks/useVeiculos";
+import { useVeiculos } from "../../veiculos/hooks/useVeiculos";
 
 interface FormularioViagemProps {
   onSubmit: (data: ViagemRequestDTO) => void;

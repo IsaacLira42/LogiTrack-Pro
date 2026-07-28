@@ -7,7 +7,7 @@ import {
   useRemoveViagem,
   useUpdateViagem,
   useViagens,
-} from "../hooks/useVeiculos";
+} from "../hooks/useViagens";
 import type {
   FiltroViagem,
   ViagemResponseDTO,

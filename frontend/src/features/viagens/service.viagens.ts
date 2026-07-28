@@ -1,6 +1,5 @@
 import type {
   FiltroViagem,
-  Veiculo,
   ViagemRequestDTO,
   ViagemResponseDTO,
 } from "./types.ts";
@@ -26,13 +25,6 @@ export async function criarViagem(
 
 export async function removerViagem(id: number): Promise<void> {
   await api.delete(`/viagens/${id}`);
-}
-
-// TODO: Remover daqui
-export async function buscarVeiculos(): Promise<Veiculo[]> {
-  const { data } = await api.get("/veiculos");
-
-  return data;
 }
 
 export async function atualizarViagem(

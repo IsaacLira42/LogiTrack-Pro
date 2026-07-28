@@ -1,13 +1,5 @@
 import z from "zod";
-
-// TODO: Remover da feature de viagem
-export interface Veiculo {
-  id: number;
-  placa: string;
-  modelo: string;
-  tipo: string;
-  ano: number;
-}
+import type { Veiculo } from "../veiculos/types";
 
 export interface ViagemResponseDTO {
   id: number;

@@ -5,3 +5,7 @@ export interface Veiculo {
   tipo: string;
   ano: number;
 }
+
+export interface ListaVeiculosProps {
+  veiculos: Veiculo[];
+}

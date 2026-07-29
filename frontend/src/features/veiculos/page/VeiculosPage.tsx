@@ -10,7 +10,7 @@ const VeiculosPage = () => {
   }
 
   if (error) {
-    return <div>Carregando...</div>;
+    return <div>Erro ao carregar os veículos.</div>;
   }
 
   return (

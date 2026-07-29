@@ -1,5 +1,6 @@
 package br.com.isaaclira.logitrackpro.controller;
 
+import br.com.isaaclira.logitrackpro.dto.response.DetalhesVeiculoDTO;
 import br.com.isaaclira.logitrackpro.dto.response.VeiculoResponseDTO;
 import br.com.isaaclira.logitrackpro.service.VeiculoService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +26,14 @@ public class VeiculoController {
     @GetMapping("/{id}")
     public ResponseEntity<VeiculoResponseDTO> buscarVeiculoPorId(@PathVariable Long id) {
         return ResponseEntity.ok(veiculoService.buscarPorId(id));
+    }
+
+    @GetMapping("/{id}/detalhes")
+    public ResponseEntity<DetalhesVeiculoDTO> buscarDetalhesVeiculo(
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                veiculoService.buscarDetalhes(id)
+        );
     }
 }

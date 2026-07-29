@@ -1,8 +1,12 @@
 package br.com.isaaclira.logitrackpro.service;
 
+import br.com.isaaclira.logitrackpro.dto.response.DadosMensaisDTO;
+import br.com.isaaclira.logitrackpro.dto.response.DetalhesVeiculoDTO;
 import br.com.isaaclira.logitrackpro.dto.response.VeiculoResponseDTO;
 import br.com.isaaclira.logitrackpro.mapper.VeiculoMapper;
 import br.com.isaaclira.logitrackpro.model.Veiculo;
+import br.com.isaaclira.logitrackpro.projection.DadosMensaisProjection;
+import br.com.isaaclira.logitrackpro.projection.DetalhesVeiculoProjection;
 import br.com.isaaclira.logitrackpro.repository.VeiculoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,53 @@ public class VeiculoService {
         Veiculo veiculo = buscarVeiculoPorId(id);
 
         return veiculoMapper.toResponseDTO(veiculo);
+    }
+
+
+    public DetalhesVeiculoDTO buscarDetalhes(Long id) {
+
+        DetalhesVeiculoProjection dados = veiculoRepository
+                .buscarDetalhes(id);
+
+        if (dados == null) {
+            throw new RuntimeException("Veículo não encontrado");
+        }
+
+        List<DadosMensaisDTO> kmMensal = veiculoRepository
+                .buscarKmMensal(id)
+                .stream()
+                .map(this::converterDadosMensais)
+                .toList();
+
+
+        List<DadosMensaisDTO> manutencaoMensal = veiculoRepository
+                .buscarManutencaoMensal(id)
+                .stream()
+                .map(this::converterDadosMensais)
+                .toList();
+
+
+        return new DetalhesVeiculoDTO(
+                dados.getModelo(),
+                dados.getPlaca(),
+                dados.getTipo(),
+                dados.getTotalViagens(),
+                dados.getTotalKm(),
+                dados.getCustoManutencao(),
+                dados.getCustoPorKm(),
+                kmMensal,
+                manutencaoMensal
+        );
+    }
+
+
+    private DadosMensaisDTO converterDadosMensais(
+            DadosMensaisProjection projection
+    ) {
+        return new DadosMensaisDTO(
+                projection.getMes(),
+                projection.getValor()
+        );
     }
 
 

@@ -1,14 +1,21 @@
 import type { Manutencao } from "../types";
 
 type Props = {
+  title?: string;
   manutencoes: Manutencao[];
 };
 
-export const ProximasManutencoes = ({ manutencoes }: Props) => {
+const statusStyles: Record<string, string> = {
+  PENDENTE: "bg-yellow-100 text-yellow-800",
+  CONCLUIDA: "bg-green-100 text-green-800",
+  EM_REALIZACAO: "bg-blue-100 text-blue-800",
+};
+
+export const ProximasManutencoes = ({ title, manutencoes }: Props) => {
   return (
     <div className="rounded-lg border border-borda bg-primary p-8">
       <h2 className="mb-6 text-lg font-semibold text-text">
-        Próximas Manutenções
+        {title || "Próximas Manutenções"}
       </h2>
 
       <div className="overflow-x-auto">
@@ -45,7 +52,11 @@ export const ProximasManutencoes = ({ manutencoes }: Props) => {
                 </td>
 
                 <td className="px-4">
-                  <span className="rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
+                  <span
+                    className={`rounded-full px-3 py-1 text-sm font-medium ${
+                      statusStyles[manutencao.status]
+                    }`}
+                  >
                     {manutencao.status}
                   </span>
                 </td>

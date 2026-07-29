@@ -14,7 +14,7 @@ const ManutencaoPage = () => {
 
   return (
     <div>
-      <ProximasManutencoes manutencoes={data} />
+      <ProximasManutencoes title="Manutenções" manutencoes={data} />
     </div>
   );
 };

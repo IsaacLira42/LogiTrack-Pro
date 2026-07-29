@@ -3,6 +3,7 @@ package br.com.isaaclira.logitrackpro.service;
 import br.com.isaaclira.logitrackpro.dto.response.DadosMensaisDTO;
 import br.com.isaaclira.logitrackpro.dto.response.DetalhesVeiculoDTO;
 import br.com.isaaclira.logitrackpro.dto.response.VeiculoResponseDTO;
+import br.com.isaaclira.logitrackpro.exception.ResourceNotFoundException;
 import br.com.isaaclira.logitrackpro.mapper.VeiculoMapper;
 import br.com.isaaclira.logitrackpro.model.Veiculo;
 import br.com.isaaclira.logitrackpro.projection.DadosMensaisProjection;
@@ -44,7 +45,7 @@ public class VeiculoService {
                 .buscarDetalhes(id);
 
         if (dados == null) {
-            throw new RuntimeException("Veículo não encontrado");
+                        throw new ResourceNotFoundException("Veículo não encontrado");
         }
 
         List<DadosMensaisDTO> kmMensal = veiculoRepository
@@ -88,7 +89,9 @@ public class VeiculoService {
     // METODOS AUXILIARES
     private Veiculo buscarVeiculoPorId(Long id){
         return veiculoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Veiculo com o id" + id + " não encontrado")
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Veículo com id " + id + " não encontrado"
+                )
         );
     }
 }

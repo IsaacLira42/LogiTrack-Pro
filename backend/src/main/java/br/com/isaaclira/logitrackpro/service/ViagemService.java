@@ -3,6 +3,7 @@ package br.com.isaaclira.logitrackpro.service;
 import br.com.isaaclira.logitrackpro.dto.request.ViagemRequestDTO;
 import br.com.isaaclira.logitrackpro.dto.request.ViagemRequestFiltroDTO;
 import br.com.isaaclira.logitrackpro.dto.response.ViagemResponseDTO;
+import br.com.isaaclira.logitrackpro.exception.ResourceNotFoundException;
 import br.com.isaaclira.logitrackpro.mapper.ViagemMapper;
 import br.com.isaaclira.logitrackpro.model.Veiculo;
 import br.com.isaaclira.logitrackpro.model.Viagem;
@@ -49,13 +50,7 @@ public class ViagemService {
                 .toList();
     }
 
-    // TODO: Mandar pro final do arquivo
-    private String limparFiltro(String valor) {
-        return valor == null || valor.isBlank()
-                ? null
-                : valor;
-    }
-
+    
     // LIST BY ID
     public ViagemResponseDTO buscarPorId(Long id) {
         Viagem viagem = buscarViagem(id);
@@ -112,9 +107,10 @@ public class ViagemService {
 
     // Metodos Auxiliares
     private Veiculo buscarVeiculo(Long id) {
-        // TODO: Criar um tratamento de erros global e substituir esse generico
         return veiculoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Veículo com id " + id + " não encontrado"));
+            .orElseThrow(() -> new ResourceNotFoundException(
+                "Veículo com id " + id + " não encontrado"
+            ));
     }
 
     private void validarPeriodo(LocalDateTime dataSaida, LocalDateTime dataChegada) {
@@ -126,12 +122,19 @@ public class ViagemService {
     }
 
     private Viagem buscarViagem(Long id) {
-        // TODO: Subtituir esse tratamento de erros por um global
         return viagemRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Viagem com id " + id + " não encontrada"));
+            .orElseThrow(() -> new ResourceNotFoundException(
+                "Viagem com id " + id + " não encontrada"
+            ));
     }
 
     private List<Viagem> buscarTodasViagens() {
         return viagemRepository.findAll();
+    }
+
+    private String limparFiltro(String valor) {
+        return valor == null || valor.isBlank()
+                ? null
+                : valor;
     }
 }

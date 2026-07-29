@@ -1,45 +1,17 @@
 import { ListaVeiculos } from "../components/ListaVeiculos";
-import { ListaVeiculosMaisUsados } from "../components/ListaVeiculosMaisUsados";
+import { useVeiculos } from "../hooks/useVeiculos";
+// import { ListaVeiculosMaisUsados } from "../components/ListaVeiculosMaisUsados";
 
 const VeiculosPage = () => {
-  // TODO: Remover esse Mock
-  const veiculosMock = [
-    {
-      id: 1,
-      modelo: "Scania R450",
-      placa: "ABC-1234",
-      ano: 2021,
-      tipo: "PESADO" as const,
-    },
-    {
-      id: 2,
-      modelo: "Volvo FH 540",
-      placa: "DEF-5678",
-      ano: 2022,
-      tipo: "PESADO" as const,
-    },
-    {
-      id: 3,
-      modelo: "Mercedes-Benz Actros 2651",
-      placa: "GHI-9012",
-      ano: 2020,
-      tipo: "PESADO" as const,
-    },
-    {
-      id: 4,
-      modelo: "Volkswagen Delivery 11.180",
-      placa: "JKL-3456",
-      ano: 2023,
-      tipo: "LEVE" as const,
-    },
-    {
-      id: 5,
-      modelo: "Fiat Strada Endurance",
-      placa: "MNO-7890",
-      ano: 2024,
-      tipo: "LEVE" as const,
-    },
-  ];
+  const { data, isPending, error } = useVeiculos();
+
+  if (isPending) {
+    return <div>Carregando...</div>;
+  }
+
+  if (error) {
+    return <div>Carregando...</div>;
+  }
 
   return (
     <main className="flex flex-col gap-8">
@@ -56,13 +28,13 @@ const VeiculosPage = () => {
       <section className="flex flex-col xl:flex-row gap-8">
         {/* Lista principal */}
         <div className="flex-1">
-          <ListaVeiculos veiculos={veiculosMock} />
+          <ListaVeiculos veiculos={data} />
         </div>
 
         {/* Lista lateral */}
-        <aside className="w-full xl:w-75">
+        {/* <aside className="w-full xl:w-75">
           <ListaVeiculosMaisUsados veiculos={veiculosMock} />
-        </aside>
+        </aside> */}
       </section>
     </main>
   );

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { buscarVeiculos } from "../service.veiculos";
+import { buscarDetalhesVeiculo, buscarVeiculos } from "../service.veiculos";
 
 export function useVeiculos() {
   return useQuery({
@@ -7,3 +7,11 @@ export function useVeiculos() {
     queryFn: buscarVeiculos,
   });
 }
+
+export const useVeiculosDetalhes = (id: number | null) => {
+  return useQuery({
+    queryKey: ["veiculo-detalhes", id],
+    queryFn: () => buscarDetalhesVeiculo(id!),
+    enabled: !!id,
+  });
+};

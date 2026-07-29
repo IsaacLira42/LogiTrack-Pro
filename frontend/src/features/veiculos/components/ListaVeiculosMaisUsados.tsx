@@ -19,7 +19,7 @@ export const ListaVeiculosMaisUsados = ({ veiculos }: ListaVeiculosProps) => {
               <span className="w-6 font-bold text-accent">{index + 1}º</span>
 
               <div className="flex items-center justify-center w-10 h-10 rounded-lg text-accent">
-                {veiculo.tipo === "Pesado" ? (
+                {veiculo.tipo === "PESADO" ? (
                   <Truck size={20} aria-hidden="true" />
                 ) : (
                   <Car size={20} aria-hidden="true" />

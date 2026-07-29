@@ -1,14 +1,18 @@
 import { Car, Calendar, Tag, Truck } from "lucide-react";
 import type { Veiculo } from "../types";
 
-export const CardVeiculo = (veiculo: Veiculo) => {
+interface CardVeiculoProps extends Veiculo {
+  openModal: (id: number) => void;
+}
+
+export const CardVeiculo = ({ openModal, ...veiculo }: CardVeiculoProps) => {
   return (
     <div className="flex flex-col p-6 gap-5 rounded-xl border border-borda bg-white shadow-sm hover:shadow-md transition-shadow">
       {/* Cabeçalho */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-accent/10 text-accent">
-            {veiculo.tipo === "Pesado" ? (
+            {veiculo.tipo === "PESADO" ? (
               <Truck size={26} />
             ) : (
               <Car size={26} />
@@ -49,7 +53,10 @@ export const CardVeiculo = (veiculo: Veiculo) => {
       </div>
 
       {/* Ação */}
-      <button className="w-full py-2.5 rounded-lg bg-accent text-white font-medium hover:opacity-90 transition-opacity">
+      <button
+        onClick={() => openModal(veiculo.id)}
+        className="w-full py-2.5 rounded-lg bg-accent text-white font-medium hover:opacity-90 transition-opacity"
+      >
         Ver detalhes
       </button>
     </div>

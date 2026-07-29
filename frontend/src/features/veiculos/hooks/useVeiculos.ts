@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { buscarDetalhesVeiculo, buscarVeiculos } from "../service.veiculos";
+import { buscarDetalhesVeiculo, buscarVeiculos } from "../veiculos.service";
 
 export function useVeiculos() {
   return useQuery({

@@ -4,7 +4,7 @@ import {
   buscarViagens,
   criarViagem,
   removerViagem,
-} from "../service.viagens.ts";
+} from "../viagens.service.ts";
 import type { FiltroViagem, UpdateViagemDTO } from "../types.ts";
 import { queryClient } from "../../../lib/queryClient.ts";
 

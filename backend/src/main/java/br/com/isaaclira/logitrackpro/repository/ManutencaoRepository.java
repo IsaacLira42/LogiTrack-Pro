@@ -21,7 +21,6 @@ public interface ManutencaoRepository extends JpaRepository<Manutencao, Long> {
           m.custo_estimado as custoEstimado
       from manutencoes m
       inner join veiculos v on m.veiculo_id = v.id
-      where m.status in ('PENDENTE', 'EM_REALIZACAO')
       order by m.data_inicio asc
   """, nativeQuery = true) List<ManutencaoProximaProjection> buscarTodasManutencoes();
 }

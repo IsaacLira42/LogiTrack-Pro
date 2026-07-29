@@ -1,4 +1,4 @@
-import { Button } from "../ui/Button";
+// import { Button } from "../ui/Button";
 import { Container } from "./Container";
 
 export const Header = () => {
@@ -12,9 +12,9 @@ export const Header = () => {
           </p>
         </div>
 
-        <div>
+        {/* <div>
           <Button texto="Relatório PDF" />
-        </div>
+        </div> */}
       </Container>
     </header>
   );

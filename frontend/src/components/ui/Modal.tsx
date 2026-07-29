@@ -4,9 +4,15 @@ import { createPortal } from "react-dom";
 type ModalProps = PropsWithChildren<{
   isOpen: boolean;
   onClose: () => void;
+  maxWidth?: string;
 }>;
 
-export function Modal({ isOpen, onClose, children }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  children,
+  maxWidth = "max-w-2xl",
+}: ModalProps) {
   if (!isOpen) return null;
 
   return createPortal(
@@ -15,7 +21,7 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl rounded-xl bg-white p-8 shadow-2xl"
+        className={`w-full ${maxWidth} rounded-xl bg-white p-8 shadow-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

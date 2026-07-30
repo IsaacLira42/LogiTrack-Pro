@@ -6,6 +6,14 @@ A aplicação permite acompanhar a utilização da frota através de um **dashbo
 
 ---
 
+# 🎨 Protótipo da Interface
+
+O design inicial da aplicação foi desenvolvido no Figma, contendo os principais fluxos e telas do sistema.
+
+- **Acessar protótipo no Figma:** https://www.figma.com/design/y0dLNS7EfWtbKMiQTougpR/LogiTrack-Pro?m=auto&t=qyjs97pd2h3IcYg4-1
+
+---
+
 # 🌐 Deploy
 
 - **Frontend:** https://logitrack-pro-lyart.vercel.app/

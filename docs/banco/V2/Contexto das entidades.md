@@ -1,10 +1,9 @@
 ## Entidades do Projeto
 
-> Adicionei esses comentarios para os caras que analizarem entenderem o porque das mudanças
-
 ---
 
 ### Manutencao.java
+
 ```java
 @Getter
 @Setter
@@ -55,6 +54,7 @@ public class Manutencao {
 ---
 
 ### Veiculo.java
+
 ```java
 @Getter
 @Setter
@@ -103,6 +103,7 @@ public class Veiculo {
 ---
 
 ### Viagem
+
 ```java
 @Getter
 @Setter

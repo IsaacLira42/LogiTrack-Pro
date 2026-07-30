@@ -1,18 +1,23 @@
-# Decisões Técnicas
+# 🧠 Decisões Técnicas
 
-## Visão Geral
+## 📌 Visão Geral
 
-Durante o desenvolvimento do **LogiTrack Pro**, algumas decisões técnicas foram tomadas buscando melhorar a qualidade do código, garantir integridade dos dados e facilitar a evolução futura da aplicação.
+Durante o desenvolvimento do **LogiTrack Pro**, diversas decisões técnicas foram tomadas com o objetivo de:
 
-Este documento apresenta as principais escolhas realizadas durante a implementação e as justificativas para cada uma delas.
+- Melhorar a qualidade do código.
+- Garantir integridade dos dados.
+- Facilitar manutenção e evolução da aplicação.
+- Criar uma arquitetura organizada e escalável.
+
+Este documento apresenta as principais escolhas realizadas durante a implementação e as justificativas para cada decisão.
 
 ---
 
-# Escolha da Arquitetura
+# 🏗️ Escolha da Arquitetura
 
 ## Backend em camadas
 
-Foi adotada uma arquitetura baseada em camadas utilizando:
+Foi adotada uma arquitetura baseada em camadas utilizando o padrão:
 
 ```text
 Controller
@@ -27,25 +32,30 @@ Repository
 Database
 ```
 
-### Motivação
+## 🎯 Motivação
 
-A separação das responsabilidades evita que regras de negócio fiquem espalhadas pela aplicação.
+A separação de responsabilidades evita que regras de negócio fiquem espalhadas pela aplicação, tornando o sistema mais organizado e fácil de evoluir.
 
-Responsabilidades definidas:
+### Responsabilidades definidas:
 
-| Camada     | Responsabilidade                        |
-| ---------- | --------------------------------------- |
-| Controller | Exposição dos endpoints REST            |
-| Service    | Regras de negócio e fluxo da aplicação  |
-| Repository | Acesso e consultas ao banco             |
-| Entity     | Representação das entidades persistidas |
-| DTO        | Comunicação entre API e frontend        |
+| Camada        | Responsabilidade                        |
+| ------------- | --------------------------------------- |
+| 🎮 Controller | Exposição dos endpoints REST            |
+| ⚙️ Service    | Regras de negócio e fluxo da aplicação  |
+| 🗄️ Repository | Acesso e consultas ao banco de dados    |
+| 📦 Entity     | Representação das entidades persistidas |
+| 🔄 DTO        | Comunicação entre API e frontend        |
 
-Essa organização facilita manutenção, testes e evolução do sistema.
+### Benefícios:
+
+- Código mais organizado.
+- Facilidade de manutenção.
+- Melhor testabilidade.
+- Redução de acoplamento entre componentes.
 
 ---
 
-# Escolha do módulo de CRUD
+# 🛣️ Escolha do Módulo de CRUD
 
 O desafio permitia escolher entre:
 
@@ -54,24 +64,26 @@ O desafio permitia escolher entre:
 
 Foi escolhido desenvolver o módulo de **Viagens**.
 
-## Justificativa
+---
 
-A entidade viagem possui maior impacto operacional, pois está diretamente relacionada aos principais indicadores solicitados:
+## 🎯 Justificativa
 
-- Quilometragem percorrida.
-- Ranking de utilização dos veículos.
-- Volume de viagens por categoria.
-- Evolução de utilização da frota.
+A entidade **Viagem** possui maior impacto operacional, pois está diretamente relacionada aos principais indicadores utilizados no dashboard:
 
-Além disso, a viagem possui relação direta com veículos e permite gerar dados analíticos para o dashboard.
+- 🚚 Quilometragem percorrida.
+- 🏆 Ranking de utilização dos veículos.
+- 📊 Volume de viagens por categoria.
+- 📈 Evolução de utilização da frota.
+
+Além disso, a viagem possui relacionamento direto com veículos, permitindo gerar dados analíticos para acompanhamento operacional.
 
 ---
 
-# Alterações no modelo de banco de dados
+# 🗄️ Alterações no Modelo de Banco de Dados
 
-O banco inicial fornecido pelo desafio foi utilizado como base, porém algumas alterações foram realizadas para melhorar a consistência dos dados.
+O banco inicial fornecido pelo desafio foi utilizado como base, porém foram realizadas algumas alterações para melhorar a consistência e adequação ao domínio da aplicação.
 
-A nova versão do banco está localizada em:
+A versão atualizada do banco está disponível em:
 
 ```text
 docs/banco/V2
@@ -79,7 +91,7 @@ docs/banco/V2
 
 ---
 
-# Remoção do comportamento ON DELETE CASCADE
+# 🚫 Remoção do comportamento ON DELETE CASCADE
 
 ## Modelo inicial
 
@@ -89,29 +101,31 @@ A tabela possuía:
 veiculo_id INTEGER REFERENCES veiculos(id) ON DELETE CASCADE
 ```
 
+---
+
 ## Alteração realizada
 
-O comportamento foi removido.
-
-## Motivo
-
-A exclusão de um veículo não deveria remover automaticamente seu histórico operacional.
-
-Exemplo:
-
-Um veículo pode possuir:
-
-- Viagens realizadas.
-- Custos de manutenção.
-- Histórico de utilização.
-
-Essas informações possuem valor analítico e devem ser preservadas.
+O comportamento de exclusão em cascata foi removido.
 
 ---
 
-# Relacionamentos obrigatórios
+## 🎯 Motivo
 
-Foram adicionadas restrições para garantir que registros dependentes sempre possuam vínculo válido.
+A exclusão de um veículo não deve remover automaticamente seu histórico operacional.
+
+Um veículo pode possuir informações importantes como:
+
+- 🛣️ Viagens realizadas.
+- 🔧 Custos de manutenção.
+- 📊 Histórico de utilização.
+
+Esses dados possuem valor analítico e devem ser preservados.
+
+---
+
+# 🔗 Relacionamentos Obrigatórios
+
+Foram adicionadas restrições para garantir que registros dependentes sempre possuam vínculos válidos.
 
 Exemplo:
 
@@ -126,19 +140,21 @@ Aplicado em:
 - Viagem.
 - Manutenção.
 
-## Motivo
+---
 
-Uma viagem sem veículo associado ou uma manutenção sem veículo relacionado representa um registro inválido dentro do domínio da aplicação.
+## 🎯 Motivo
+
+Uma viagem sem veículo associado ou uma manutenção sem veículo relacionado representa um registro inválido dentro das regras do domínio.
 
 ---
 
-# Campos obrigatórios
+# ✅ Campos Obrigatórios
 
-Alguns campos inicialmente permitiam valores nulos, porém foram alterados.
+Alguns campos inicialmente permitiam valores nulos, porém foram alterados para garantir maior consistência dos dados.
 
-Exemplos:
+---
 
-## Viagem
+## 🛣️ Viagem
 
 Antes:
 
@@ -156,21 +172,25 @@ destino VARCHAR(100) NOT NULL
 km_percorrida DECIMAL(10,2) NOT NULL
 ```
 
-## Justificativa
+---
+
+## 🎯 Justificativa
 
 Essas informações são essenciais para:
 
 - Identificar o trajeto realizado.
 - Calcular indicadores.
-- Alimentar o dashboard.
+- Alimentar o dashboard analítico.
 
 ---
 
-# Validações de domínio
+# 📏 Validações de Domínio
 
-Além das validações estruturais do banco, foram adicionadas regras de negócio.
+Além das validações estruturais do banco, foram implementadas regras específicas do negócio.
 
-## Exemplo: período da viagem
+---
+
+## 🛣️ Período da viagem
 
 Uma viagem não pode possuir data de chegada anterior à saída.
 
@@ -184,7 +204,7 @@ Caso contrário, o registro é rejeitado.
 
 ---
 
-## Exemplo: período da manutenção
+## 🔧 Período da manutenção
 
 Uma manutenção finalizada não pode possuir data anterior ao início.
 
@@ -196,11 +216,11 @@ dataFinalizacao >= dataInicio
 
 ---
 
-# Uso de DTOs
+# 📦 Uso de DTOs
 
 As entidades JPA não são retornadas diretamente pela API.
 
-Foram criados objetos específicos para comunicação:
+Foram criados objetos específicos para comunicação entre backend e frontend.
 
 Exemplos:
 
@@ -211,20 +231,22 @@ DashboardResponseDTO
 DetalhesVeiculoDTO
 ```
 
-## Motivos
+---
+
+## 🎯 Motivos
 
 A utilização de DTOs permite:
 
-- Evitar exposição da estrutura interna do banco.
-- Controlar os dados retornados pela API.
-- Reduzir acoplamento entre frontend e backend.
-- Facilitar alterações futuras no modelo.
+- 🔒 Evitar exposição da estrutura interna do banco.
+- 🎛️ Controlar os dados retornados pela API.
+- 🔗 Reduzir acoplamento entre frontend e backend.
+- 🚀 Facilitar alterações futuras no modelo.
 
 ---
 
-# Uso de Projections
+# ⚡ Uso de Projections
 
-Para consultas analíticas foram utilizadas Spring Data Projections.
+Para consultas analíticas foram utilizadas **Spring Data Projections**.
 
 Exemplo:
 
@@ -232,7 +254,9 @@ Exemplo:
 RankingUtilizacaoProjection
 ```
 
-Em vez de carregar toda a entidade:
+---
+
+Em vez de carregar toda uma entidade:
 
 ```text
 Veiculo
@@ -240,7 +264,7 @@ Veiculo
  └── manutencoes
 ```
 
-a consulta retorna somente:
+A consulta retorna somente os dados necessários:
 
 ```text
 placa
@@ -248,16 +272,18 @@ modelo
 kmTotal
 ```
 
+---
+
 ## Benefícios
 
-- Menor consumo de memória.
-- Menos dados trafegados.
-- Consultas mais específicas.
-- Melhor desempenho em relatórios.
+- ⚡ Menor consumo de memória.
+- 📉 Menor quantidade de dados trafegados.
+- 🎯 Consultas mais específicas.
+- 📊 Melhor desempenho em relatórios.
 
 ---
 
-# Uso de SQL Nativo no Dashboard
+# 📊 Uso de SQL Nativo no Dashboard
 
 As métricas do dashboard foram implementadas utilizando consultas SQL nativas.
 
@@ -268,21 +294,28 @@ Exemplos:
 - Ranking de veículos.
 - Projeção financeira.
 
-## Justificativa
+---
 
-Consultas analíticas geralmente envolvem agregações e operações específicas do banco.
+## 🎯 Justificativa
+
+Consultas analíticas geralmente envolvem:
+
+- Agregações.
+- Agrupamentos.
+- Ordenações.
+- Operações específicas do banco.
 
 O uso de SQL explícito permite:
 
-- Maior controle sobre a consulta.
-- Melhor leitura da regra analítica.
+- Maior controle sobre as consultas.
+- Melhor leitura das regras analíticas.
 - Aproveitamento dos recursos do PostgreSQL.
 
 ---
 
-# Versionamento do banco com Flyway
+# 🛫 Versionamento do Banco com Flyway
 
-O projeto utiliza Flyway para controle das alterações do banco.
+O projeto utiliza **Flyway** para controle das alterações estruturais do banco.
 
 Estrutura:
 
@@ -293,21 +326,25 @@ resources
         └── V1__Initial_Schema.sql
 ```
 
-## Motivos
+---
+
+## 🎯 Motivos
 
 O versionamento evita alterações manuais inconsistentes no banco.
 
 Benefícios:
 
-- Histórico das mudanças.
-- Reprodutibilidade do ambiente.
-- Facilidade para novos desenvolvedores configurarem o projeto.
+- 📚 Histórico das mudanças.
+- 🔄 Reprodutibilidade do ambiente.
+- 👨‍💻 Facilidade para novos desenvolvedores configurarem o projeto.
 
 ---
 
-# Estratégia de validação
+# 🛡️ Estratégia de Validação
 
-As validações foram distribuídas entre diferentes camadas.
+As validações foram distribuídas entre diferentes camadas da aplicação.
+
+---
 
 ## Bean Validation
 
@@ -336,7 +373,7 @@ validarPeriodo()
 
 ---
 
-## Banco de dados
+## Banco de Dados
 
 Responsável por garantir integridade estrutural.
 
@@ -348,7 +385,7 @@ Exemplos:
 
 ---
 
-# Gerenciamento de estado no Frontend
+# ⚛️ Gerenciamento de Estado no Frontend
 
 Foi utilizado:
 
@@ -356,50 +393,53 @@ Foi utilizado:
 TanStack React Query
 ```
 
-## Justificativa
+---
 
-A aplicação possui diversos dados vindos da API, principalmente:
+## 🎯 Justificativa
 
-- Dashboard.
-- Veículos.
-- Viagens.
-- Manutenções.
+A aplicação possui diversos dados consumidos da API:
+
+- 📊 Dashboard.
+- 🚘 Veículos.
+- 🛣️ Viagens.
+- 🔧 Manutenções.
 
 O React Query permite:
 
 - Cache automático.
 - Controle de atualização.
-- Reaproveitamento dos dados carregados.
+- Reutilização dos dados carregados.
 - Tratamento de estados de carregamento e erro.
 
 ---
 
-# Organização do Frontend por Features
+# 🧩 Organização do Frontend por Features
 
-O frontend foi organizado por domínio:
+O frontend foi estruturado por domínio:
 
 ```text
 features
-
 ├── dashboard
 ├── veiculos
 ├── viagens
 └── manutencoes
 ```
 
-## Justificativa
+---
 
-Essa estrutura mantém componentes, serviços e hooks próximos ao contexto em que são utilizados.
+## 🎯 Justificativa
+
+Essa organização mantém componentes, serviços e hooks próximos ao contexto onde são utilizados.
 
 Benefícios:
 
-- Código mais organizado.
-- Maior facilidade de manutenção.
-- Melhor escalabilidade.
+- 📁 Código mais organizado.
+- 🔧 Facilidade de manutenção.
+- 📈 Melhor escalabilidade.
 
 ---
 
-# Uso de Docker
+# 🐳 Uso de Docker
 
 Foram criados ambientes containerizados utilizando Docker.
 
@@ -409,36 +449,51 @@ Serviços:
 - Backend Spring Boot.
 - Frontend React.
 
-## Motivos
+---
+
+## 🎯 Motivos
 
 O uso de containers permite:
 
-- Padronização do ambiente.
-- Facilidade de execução.
-- Redução de problemas de configuração.
+- 🌎 Padronização do ambiente.
+- 🚀 Facilidade de execução.
+- ⚙️ Redução de problemas de configuração.
 
 ---
 
-# Deploy
+# 🌐 Deploy
 
-A aplicação foi disponibilizada em ambiente externo:
+A aplicação foi disponibilizada em ambiente externo para demonstrar uma versão funcional além do ambiente local.
+
+---
 
 ## Backend
 
 URL:
 
+```text
 https://logitrack-pro-1sp1.onrender.com
+```
+
+---
 
 ## Frontend
 
 URL:
 
+```text
 https://logitrack-pro-lyart.vercel.app/
-
-O deploy demonstra a preocupação em disponibilizar uma versão funcional da aplicação além do ambiente local.
+```
 
 ---
 
-# Considerações finais
+# ✅ Considerações Finais
 
-As decisões tomadas durante o desenvolvimento tiveram como objetivo construir uma aplicação organizada, com separação clara de responsabilidades, integridade dos dados e estrutura preparada para futuras evoluções.
+As decisões tomadas durante o desenvolvimento tiveram como objetivo construir uma aplicação:
+
+- Organizada.
+- Com separação clara de responsabilidades.
+- Com integridade dos dados.
+- Preparada para futuras evoluções.
+
+A arquitetura escolhida permite que novas funcionalidades sejam adicionadas de forma mais segura, mantendo a qualidade e a manutenibilidade do sistema.

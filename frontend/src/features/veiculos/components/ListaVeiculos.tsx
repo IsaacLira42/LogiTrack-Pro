@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Modal } from "../../../components/ui/Modal";
-import type { DetalhesVeiculo, ListaVeiculosProps } from "../types";
+import type { ListaVeiculosProps } from "../types";
 import { CardVeiculo } from "./CardVeiculo";
 import { useVeiculosDetalhes } from "../hooks/useVeiculos";
 import { VeiculoDetalhes } from "./VeiculoDetalhes";
@@ -27,64 +27,6 @@ export const ListaVeiculos = ({ veiculos }: ListaVeiculosProps) => {
   const handlerFecharModal = () => {
     setIsOpen(false);
     setVeiculoId(null);
-  };
-
-  const detalhesMokados: DetalhesVeiculo = {
-    modelo: "Mercedes Sprinter",
-    placa: "KJG-1122",
-    tipo: "LEVE",
-    totalViagens: 7,
-    totalKm: 1166.2,
-    custoManutencao: 5860.0,
-    custoPorKm: 5.0248670896930201,
-    kmMensal: [
-      {
-        mes: "Jan",
-        valor: 271.2,
-      },
-      {
-        mes: "Feb",
-        valor: 24.5,
-      },
-      {
-        mes: "Mar",
-        valor: 188.9,
-      },
-      {
-        mes: "Apr",
-        valor: 280.2,
-      },
-      {
-        mes: "May",
-        valor: 25.3,
-      },
-      {
-        mes: "Jun",
-        valor: 189.6,
-      },
-      {
-        mes: "Jul",
-        valor: 186.5,
-      },
-    ],
-    manutencaoMensal: [
-      {
-        mes: "May",
-        valor: 2200.0,
-      },
-      {
-        mes: "Feb",
-        valor: 380.0,
-      },
-      {
-        mes: "Jul",
-        valor: 2300.0,
-      },
-      {
-        mes: "Aug",
-        valor: 980.0,
-      },
-    ],
   };
 
   return (
